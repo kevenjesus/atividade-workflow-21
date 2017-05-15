@@ -9,11 +9,6 @@ var pathJs = './source/js/*.js';
 var pathCss = './dist/css';
 var pathScss = './source/scss/*.scss';
 
-// task padrao - finciona com o comando 'gulp'
-gulp.task('default', function() {
-  console.log('Gulp funcionando...');
-});
-
 
 //compila o .sass e envia o .css para ./dist/css
 gulp.task('compilar-sass',function(){
@@ -24,7 +19,7 @@ gulp.task('compilar-sass',function(){
 });
 
 //compila o .html e envia para ./dist
-gulp.task('mimifica-html',function(){
+gulp.task('minifica-html',function(){
 	gulp.src('./source/*.html')
 	.pipe(htmlmin({collapseWhitespace: true}))
 	.pipe(gulp.dest('./dist'));
@@ -32,13 +27,15 @@ gulp.task('mimifica-html',function(){
 });
 
 //escuta mudanças no arquivo .sass
-gulp.task('background-sass',function(){
+gulp.task('background',function(){
 	gulp.watch(pathScss,['compilar-sass']);
+	gulp.watch('./source/*.html',['mimifica-html']);
 });
 
-//escuta mudanças no arquivo .html
-gulp.task('background-html',function(){
-	gulp.watch('./source/*.html',['mimifica-html']);
+
+// task padrao - finciona com o comando 'gulp'
+gulp.task('default', ['compilar-sass', 'minifica-html', 'background'] function() {
+  console.log('Gulp funcionando...');
 });
 
 
